@@ -10,8 +10,7 @@ import { ALLERGY, esc } from "./sections/ui.js";
 
 setLang("es");
 const TAG_NAMES = { gluten: "sin gluten", nuts: "sin frutos secos", lactose: "sin lactosa", egg: "sin huevo" };
-const SESSION = `halloween-admin-${site.slug || "demo"}`;
-const demo = site.demo;
+const SESSION = "halloween-admin";
 const home = `./${location.search}`;
 
 const root = document.getElementById("admin");
@@ -30,7 +29,7 @@ const lost = () => doors.filter((d) => !layout().fits(d));
 const errorText = (e) => ({
   auth: "Clave incorrecta.",
   network: "No se pudo conectar con la hoja.",
-  notfound: "No hay ninguna comunidad con esta dirección.",
+  badapi: "La URL de comunidad.json no responde como una hoja de Halloween.",
 })[e.code] || `Error: ${e.code || e.message}`;
 const settings = () => Object.fromEntries(SETTINGS.map((k) => [k, config[k]]));
 
@@ -45,9 +44,9 @@ function login(error = "") {
         <button class="btn">Entrar</button>
       </form>
       ${error ? `<p class="error">${error}</p>` : ""}
-      ${demo ? `<p class="soon">Modo demostración: la clave es <b>demo</b>.</p>` : ""}
+      ${site.demo ? `<p class="soon">Modo demostración: la clave es <b>demo</b>.</p>` : ""}
       <p><a href="${home}">← Volver a la web</a></p>
-      <p class="help">¿Has olvidado la clave? Cámbiala desde tu hoja de Google: menú 🎃 Halloween → Cambiar la clave del gestor.</p>
+      ${site.demo ? "" : `<p class="help">¿Primera vez o has olvidado la clave? Créala o cámbiala desde tu hoja de Google: menú 🎃 Halloween → Cambiar la clave del gestor.</p>`}
     </section>`;
 }
 
@@ -190,7 +189,7 @@ function panel() {
     <header class="admin-head">
       <h1>🧙 Gestor</h1>
       <p>${esc(config.community)} · <a href="${home}" target="_blank">Ver la web</a> · <button type="button" class="link" data-act="logout">Salir</button></p>
-      ${demo ? `<p class="banner">🧪 Modo demostración: los cambios solo se guardan en este navegador.</p>` : ""}
+      ${site.demo ? `<p class="banner">🧪 Modo demostración: los cambios solo se guardan en este navegador.</p>` : ""}
     </header>
 
     <section class="card share">
@@ -438,5 +437,4 @@ root.addEventListener("toggle", (e) => {
 
 addEventListener("beforeunload", (e) => { if (dirty) e.preventDefault(); });
 
-if (key) enter(key);
-else login();
+connect().then(() => (key ? enter(key) : login()));

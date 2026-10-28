@@ -1,4 +1,4 @@
-// Datos de ejemplo para el modo demostración (sin ?c=comunidad, o ?c=demo).
+// Datos de ejemplo para el modo demostración (sin comunidad.json).
 const kids = [
   { alias: "Bruja Piruja", age: "6", allergy: "" },
   { alias: "Vampirito", age: "4", allergy: "frutos secos" },

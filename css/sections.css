@@ -419,5 +419,3 @@ input:focus { outline: none; border-color: var(--pumpkin); }
 .legal a { color: var(--muted); }
 .legal-page h1 { font-size: 3rem; }
 .legal-page h2 { font-size: 1.8rem; margin-top: 1.4rem; }
-.missing { text-align: center; }
-.missing h2 { font-size: 4rem; }

@@ -6,17 +6,17 @@ import { esc } from "./ui.js";
 
 // Inscripción de peques: cada familia se apunta desde la web y recibe un enlace privado
 // (#peque=id.clave) para cambiar o borrar su inscripción. Este dispositivo recuerda las suyas.
-const MINE = `halloween-mine-${site.slug || "demo"}`;
+const MINE = () => `halloween-mine${site.demo ? "-demo" : ""}`;
 
 let editing = null; // { id, token, alias, age, allergy } mientras se edita una inscripción propia
 let notice = "";    // mensaje tras enviar (HTML)
 let busy = false;
 
 function mine() {
-  try { return JSON.parse(localStorage.getItem(MINE)) || []; } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(MINE())) || []; } catch { return []; }
 }
 function setMine(list) {
-  try { localStorage.setItem(MINE, JSON.stringify(list)); } catch {}
+  try { localStorage.setItem(MINE(), JSON.stringify(list)); } catch {}
 }
 
 const linkOf = ({ id, token }) => `${location.origin}${location.pathname}${location.search}#peque=${id}.${token}`;

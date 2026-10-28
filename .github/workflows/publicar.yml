@@ -1,0 +1,59 @@
+# Publica la web en GitHub Pages y, en las copias (forks), trae cada día las mejoras del proyecto original.
+# Requisito (una vez): Settings → Pages → Source: «GitHub Actions».
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * *" # cada día a las 4:17 (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    # Solo en copias, y solo en la ejecución diaria o manual.
+    if: github.event.repository.fork && github.event_name != 'push'
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.sync.outputs.changed }}
+    steps:
+      - id: sync
+        name: Traer las mejoras del proyecto original
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          out=$(gh api -X POST "repos/${{ github.repository }}/merge-upstream" -f branch=main --jq .merge_type) || {
+            echo "::warning::No se pudo actualizar sola. Entra en tu repositorio y pulsa «Sync fork» → «Update branch»."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          }
+          echo "Resultado: $out"
+          if [ "$out" = "none" ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+  publicar:
+    needs: actualizar
+    # Tras un push, una ejecución manual o una actualización con cambios.
+    if: always() && (github.event_name != 'schedule' || needs.actualizar.outputs.changed == 'true')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4

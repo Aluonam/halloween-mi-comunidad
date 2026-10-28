@@ -1,14 +1,7 @@
-// ⚙️ Configuración de la plataforma (la pone el propietario una vez, ver docs/PROPIETARIO.md).
-// Lo de cada comunidad (nombre, fecha, edificios o casas, calles...) lo decide su gestor desde admin.html
-// y se guarda en la hoja de esa comunidad.
+// ⚙️ Valores de partida. La URL de tu hoja va en comunidad.json (ver README), no aquí: así las
+// actualizaciones automáticas nunca chocan con tus datos. Lo demás (nombre, fecha, edificios o casas,
+// calles...) se decide desde admin.html y se guarda en tu hoja.
 export const config = {
-  // Registro de comunidades: URL de la aplicación web de apps-script/Registro.gs.
-  // Vacío = solo modo demostración.
-  registry: "",
-
-  // Hoja plantilla que copia cada comunidad al darse de alta (enlace que acaba en /copy).
-  templateSheet: "",
-
   poster: null,       // cartel común: { image: "img/cartel.jpg", credit: "...", note: "..." }
   partyDetails: null, // { es: "Juegos, merienda...", en: "Games, snacks..." }
 

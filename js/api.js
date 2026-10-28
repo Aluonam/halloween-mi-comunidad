@@ -1,14 +1,13 @@
-// Conexión con la hoja de cada comunidad (apps-script/Code.gs) y con el registro de la plataforma
-// (apps-script/Registro.gs), que dice qué hoja corresponde a cada ?c=direccion.
-// Sin comunidad (o ?c=demo) funciona en modo demostración: las mismas acciones, guardadas en este navegador.
-import { applySettings, config } from "./config.js";
+// Conexión con la hoja de Google de la comunidad (apps-script/Code.gs).
+// Su URL está en comunidad.json (ver README). Sin ese archivo funciona en modo demostración:
+// las mismas acciones, guardadas en este navegador.
+import { applySettings } from "./config.js";
 import { cleanSettings, text } from "./settings.js";
 import { demoData } from "./data/demo.js";
 import { layout } from "./layouts/index.js";
 
 const params = new URLSearchParams(location.search);
-export const site = { slug: (params.get("c") || "").toLowerCase(), demo: true, api: "", name: "" };
-site.demo = !site.slug || site.slug === "demo" || !config.registry;
+export const site = { demo: false, api: "" };
 
 // Datos públicos que pinta la web.
 export const data = { doors: [], kids: [] };
@@ -32,34 +31,23 @@ async function post(url, action, body = {}) {
   return out;
 }
 
-// Hoja de la comunidad abierta.
 export const api = (action, body) => (site.demo ? local(action, body || {}) : post(site.api, action, body));
-// Registro de la plataforma.
-export const registry = (action, body) => (config.registry ? post(config.registry, action, body) : Promise.reject(new ApiError("network")));
-// Una hoja concreta (asistente de alta, antes de que la comunidad exista).
-export const sheet = (url, action, body) => post(url, action, body);
 
-// Busca la hoja de la comunidad. Se recuerda en el navegador: la próxima visita no espera al registro.
-export async function connect() {
-  if (site.demo) return;
-  const key = `halloween-site-${site.slug}`;
-  let cached = null;
-  try { cached = JSON.parse(localStorage.getItem(key)); } catch {}
-  const fresh = registry("resolve", { slug: site.slug }).then((r) => {
-    try { localStorage.setItem(key, JSON.stringify(r)); } catch {}
-    return r;
-  }, (e) => {
-    if (e.code === "notfound") try { localStorage.removeItem(key); } catch {}
-    throw e;
-  });
-  if (cached) fresh.catch(() => {});
-  const found = cached || await fresh;
-  site.api = found.api;
-  site.name = found.name;
+// Lee comunidad.json: { "hoja": "https://script.google.com/macros/s/…/exec" }.
+let connected = null;
+export function connect() {
+  connected ||= fetch("comunidad.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : {}))
+    .catch(() => ({}))
+    .then((c) => {
+      site.api = String(c.hoja || "").trim();
+      site.demo = !site.api;
+    });
+  return connected;
 }
 
 // Ajustes + puertas + peques. Se guardan en el navegador para pintar al instante la próxima visita.
-const CACHE = `halloween-cache-${site.slug}`;
+const CACHE = "halloween-cache";
 const set = params.get("layout") === "houses" ? "houses" : "buildings";
 
 function use(out) {
@@ -69,7 +57,6 @@ function use(out) {
 }
 
 export function loadCached() {
-  if (site.demo) return false;
   try {
     const out = JSON.parse(localStorage.getItem(CACHE));
     if (out) { use(out); return true; }

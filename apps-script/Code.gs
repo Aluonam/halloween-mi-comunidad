@@ -1,7 +1,7 @@
 // Hoja de la comunidad: guarda los ajustes de la fiesta, las puertas que reparten y los peques inscritos.
-// Va dentro de la hoja plantilla que copia cada comunidad (guía: docs/PROPIETARIO.md).
-// La clave del gestor la elige la comunidad al crear su web (acción claim) y se guarda cifrada en las
-// propiedades del script; se puede cambiar desde el menú 🎃 Halloween de la hoja.
+// Va dentro de la hoja de Google de cada comunidad (ver README).
+// La clave del gestor se crea y se cambia desde el menú 🎃 Halloween de la hoja, y se guarda cifrada en
+// las propiedades del script.
 const APP = "halloween";
 
 const DOORS = { name: "puertas", cols: ["id", "calle", "numero", "etiquetas"] };
@@ -275,7 +275,7 @@ function activate() {
     "3. En ⚙️ elige «Aplicación web».\n" +
     "4. Ejecutar como: Yo · Quién tiene acceso: Cualquier usuario.\n" +
     "5. Implementar → Autorizar acceso → copia la «URL de la aplicación web».\n\n" +
-    "Pega esa URL en el asistente de alta de tu comunidad.",
+    "Pega esa URL en el asistente de alta de tu comunidad (o en comunidad.json si tienes tu propia copia de la web).",
     SpreadsheetApp.getUi().ButtonSet.OK);
 }
 
