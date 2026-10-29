@@ -5,7 +5,7 @@ La web de la fiesta de Halloween de tu comunidad de vecinos, **en tu propio GitH
 - **Recorrido de truco o trato** con las puertas que reparten chuches y un **juego de acertijos** para encontrarlas.
 - Para **edificios** (portales, pisos y letras) o **casas** (calles y números).
 - **Panel del gestor** (`admin.html`): fecha y hora, tipo de urbanización, portales o calles, quién reparte, enlace y **QR** para el cartel.
-- **Inscripción de peques**: cada familia se apunta y recibe un enlace privado para cambiarla o borrarla.
+- **Inscripción de peques**: cada familia apunta a uno o varios peques de una vez y recibe un enlace privado para cambiarla, añadir más o borrarla. Máximo de plazas configurable (100 por defecto).
 - Español e inglés. Sin dependencias, sin compilación, sin cookies de seguimiento.
 
 **Demo:** https://aluonam.github.io/halloween-mi-comunidad/ (gestor: [admin.html](https://aluonam.github.io/halloween-mi-comunidad/admin.html), clave `demo`; también [casas](https://aluonam.github.io/halloween-mi-comunidad/?layout=houses)).
@@ -22,7 +22,7 @@ Aquí se guardan los datos de tu comunidad: ajustes, puertas y peques. Solo tú 
 2. **Extensiones → Apps Script**. Borra lo que haya y pega entero el archivo [`apps-script/Code.gs`](apps-script/Code.gs). Guarda (💾) y cierra esa pestaña.
 3. **Recarga la hoja**. Aparece el menú **🎃 Halloween**:
    - **🎃 Halloween → 1. Activar la hoja**. Google pedirá permisos: *Continuar* → tu cuenta → *Configuración avanzada → Ir a… → Permitir* (es tu propio script).
-   - **🎃 Halloween → Cambiar la clave del gestor**: elige la clave con la que entrarás al panel (mín. 6 caracteres).
+   - **🎃 Halloween → Cambiar la clave del gestor**: elige la clave con la que entrarás al panel (mín. 10 caracteres y nada fácil de adivinar).
 4. **Extensiones → Apps Script → Implementar → Nueva implementación → ⚙️ Aplicación web**:
    - Ejecutar como: **Yo** · Quién tiene acceso: **Cualquier usuario** → **Implementar**.
    - Copia la **URL de la aplicación web** (acaba en `/exec`).

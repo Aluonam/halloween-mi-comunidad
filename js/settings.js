@@ -1,5 +1,5 @@
 // Limpia los ajustes del gestor antes de guardarlos. Misma lógica que cleanSettings en apps-script/Code.gs.
-export const LIMITS = { portals: 30, floors: 40, letters: 12, streets: 50 };
+export const LIMITS = { portals: 30, floors: 40, letters: 12, streets: 50, kids: 500, kidsMax: 100, family: 10 };
 
 export const text = (v, max) => String(v ?? "").trim().replace(/^[=+\-@]+/, "").slice(0, max);
 const time = (v) => (/^\d{2}:\d{2}$/.test(v) ? v : "");
@@ -32,5 +32,6 @@ export function cleanSettings(s = {}) {
       letters: letters || "A",
     },
     houses: { streets },
+    kidsMax: int(s.kidsMax, 1, LIMITS.kids, LIMITS.kidsMax),
   };
 }

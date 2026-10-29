@@ -386,6 +386,14 @@ button.win:not(.on):hover { box-shadow: inset 0 0 0 2px var(--slime); }
 .kid-form h3, .kid-form + .mine p { margin: 0 0 0.5rem; color: var(--moon); font-weight: normal; font-size: 1.4rem; }
 .kid-form label { display: block; margin-bottom: 0.6rem; color: var(--muted); }
 .kid-form .pair { display: grid; grid-template-columns: 1fr 2fr; gap: 0.6rem; }
+.kid-row { margin: 0 0 0.8rem; padding: 0.6rem 0.8rem 0.8rem; border: 2px solid var(--purple); border-radius: var(--radius); }
+.kid-row legend { padding: 0 0.4rem; color: var(--pumpkin); }
+.kid-form .add-kid { margin-bottom: 0.8rem; }
+.kid-form .spots { color: var(--pumpkin); }
+.public-note { margin: 0.8rem 0; padding: 0.6rem 0.9rem; border-radius: var(--radius); background: #f39c1218; border-left: 4px solid var(--pumpkin); }
+.public-note p { margin: 0 0 0.4rem; }
+.kid-form .public-note .check { display: flex; gap: 0.5rem; align-items: center; margin: 0; color: var(--text); }
+.kid-form.closed p { margin: 0; }
 input:not([type=checkbox]):not([type=radio]), select {
   color-scheme: dark;
   display: block;

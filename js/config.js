@@ -26,10 +26,12 @@ export const config = {
   houses: {
     streets: [],            // calles participantes
   },
+
+  kidsMax: 100,             // máximo de peques; al llegar se cierra la inscripción (el gestor puede subirlo)
 };
 
 // Claves que guarda el gestor en la hoja.
-export const SETTINGS = ["community", "date", "routeEnd", "partyPlace", "partyStart", "partyEnd", "whatsapp", "volunteersForm", "layout", "buildings", "houses"];
+export const SETTINGS = ["community", "date", "routeEnd", "partyPlace", "partyStart", "partyEnd", "whatsapp", "volunteersForm", "layout", "buildings", "houses", "kidsMax"];
 
 export function applySettings(s) {
   if (!s) return;

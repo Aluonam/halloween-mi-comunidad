@@ -73,7 +73,12 @@ function generalForm() {
     <div class="grid">
       ${field("Grupo de WhatsApp", "whatsapp", config.whatsapp, 'type="url" placeholder="https://chat.whatsapp.com/..."')}
       ${field("Formulario de voluntarios (opcional)", "volunteersForm", config.volunteersForm, 'type="url" placeholder="https://..."')}
-    </div>`;
+    </div>
+    <h3>Inscripción de peques</h3>
+    <div class="grid">
+      ${field("Máximo de peques", "kidsMax", config.kidsMax, `type="number" min="1" max="${LIMITS.kids}"`)}
+    </div>
+    <p class="help">Al llegar al máximo se cierra el formulario y las familias tienen que pedírtelo a ti. Puedes subirlo cuando quieras (hasta ${LIMITS.kids}).</p>`;
 }
 
 function structureForm() {
@@ -223,6 +228,7 @@ function panel() {
 
     <section class="card">
       <h2>Peques inscritos</h2>
+      <p class="count">👻 ${kids.length} de ${config.kidsMax}${kids.length >= config.kidsMax ? " · inscripción cerrada" : ""}</p>
       <p>Cada familia gestiona su inscripción. Borra aquí solo lo que no deba estar (alias inapropiados, duplicados...).</p>
       ${kidsList()}
     </section>
